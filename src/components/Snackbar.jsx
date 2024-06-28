@@ -1,18 +1,17 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import Fade from '@mui/material/Fade';
-import { SnackbarContent } from '@mui/material';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
+import Fade from "@mui/material/Fade";
+import { SnackbarContent } from "@mui/material";
 
-function SnackbarCustom({message, sucess}) {
+function SnackbarCustom({ message, sucess }) {
   const [open, setOpen] = React.useState(true);
-  const vertical = 'top';
-  const horizontal = 'right';
+  const vertical = "top";
+  const horizontal = "right";
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <Box sx={{ width: 500 }}>
@@ -24,10 +23,13 @@ function SnackbarCustom({message, sucess}) {
         TransitionComponent={Fade}
         autoHideDuration={1200}
       >
-        <SnackbarContent message={message} sx={{
-          backgroundColor: !sucess ? 'red' : 'green'
-        }} />
-        </Snackbar>
+        <SnackbarContent
+          message={message}
+          sx={{
+            backgroundColor: !sucess ? "red" : "green",
+          }}
+        />
+      </Snackbar>
     </Box>
   );
 }
