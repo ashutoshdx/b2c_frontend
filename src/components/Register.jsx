@@ -90,8 +90,6 @@ const Register = () => {
         setSnackbarState({ message: data.message, success: data.success });
         return;
       }
-      setShowSnackBar(true);
-      setSnackbarState({ message: data.message, success: data.success });
       navigate("/login");
       return;
     } catch (error) {
