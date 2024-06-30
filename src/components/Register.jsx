@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SnackbarCustom from "./Snackbar";
 
+const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
 const Register = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [passwordInputFieldType, setPasswordInputFieldType] =
@@ -48,29 +50,50 @@ const Register = () => {
 
   const handleTermsAndConditionsClick = () => {
     if (isTermsAndConditionsChecked) {
-      setIsTermsAndConditionsChecked(true);
-    } else {
       setIsTermsAndConditionsChecked(false);
+    } else {
+      setIsTermsAndConditionsChecked(true);
     }
   };
 
   const handlePrivacyAndPolicyClick = () => {
     if (isPrivacyAndPolicyChecked) {
-      setIsPrivacyAndPolicyChecked(true);
-    } else {
       setIsPrivacyAndPolicyChecked(false);
+    } else {
+      setIsPrivacyAndPolicyChecked(true);
     }
   };
 
   const handleRegisteration = async () => {
     try {
-      console.log(userRegisterationData);
-      const keys = Object.keys(userRegisterationData);
-      if (keys.length === 4) {
+      const response = await fetch(
+        `${REACT_APP_SERVER_URL}/register?App_type=Xwarmup`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          method: "POST",
+          credentials: "include",
+          body: new URLSearchParams({
+            fname: userRegisterationData.fname,
+            lname: userRegisterationData.fname,
+            password: userRegisterationData.password,
+            email: userRegisterationData.email,
+            App_type: "Xwarmup",
+          }),
+        }
+      );
+      const data = await response.json();
+      if (!data.success) {
         setShowSnackBar(true);
-        setSnackbarState({ message: "You have all fields", success: true });
-        navigate("/login");
+        setSnackbarState({ message: data.message, success: data.success });
+        return;
       }
+      setShowSnackBar(true);
+      setSnackbarState({ message: data.message, success: data.success });
+      navigate("/login");
+      return;
     } catch (error) {
       throw error;
     }
